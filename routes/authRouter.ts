@@ -12,7 +12,7 @@ const saltRounds = 10;
 function validUsername(username: any) {
   if (username === undefined
     || typeof username != "string" ||
-    !(username.length <= 30 && username.length > 6)) {
+    !(username.length <= 30 && username.length >= 5)) {
     return false;
   }
   return true;
@@ -49,11 +49,11 @@ authRouter.post("/signup", (req: Request, res: Response) => {
   if (!validUsername(username)) {
     return res.status(401).send("Invalid username"); // TODO: We need to make this more descriptive so users know why
   }
-  if (!validPassword(plaintextPassword)) {
-    return res.status(401).send("Invalid password"); // TODO: We need to make this more descriptive so users know why
-  }
   if (!validEmail(email)) {
     return res.status(401).send("Invalid email"); // TODO: We need to make this more descriptive so users know why
+  }
+  if (!validPassword(plaintextPassword)) {
+    return res.status(401).send("Invalid password"); // TODO: We need to make this more descriptive so users know why
   }
 
   // TODO: Possibly create a procedure in the database to do this instead
