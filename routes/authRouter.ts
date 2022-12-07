@@ -6,6 +6,7 @@ var cors = require('cors');
 
 const authRouter = express.Router();
 authRouter.use(cors());
+
 const saltRounds = 10;
 
 function validUsername(username: any) {
