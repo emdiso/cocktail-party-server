@@ -1,4 +1,4 @@
-const Pool = require("pg").Pool;
+const Pool = require("pg");
 require("dotenv").config();
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -11,8 +11,6 @@ const pool = new Pool(isProduction ? {
     },
 } : {connectionString: connectionString});
 
-// const psqlEnv = require("../../env.json"); // Convert to typsecript import statment
-// let psqlPool = new Pool(psqlEnv);
 pool.connect().then(() => {
   console.log("Connected to database");
 });
