@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { randomDrinkPromise, retreiveAllMenuInfo } from '../utils/cocktailApiUtils';
 import cors from 'cors';
 import psqlPool from '../utils/psqlConnection';
+import { drinkByIdPromise } from './menuGenRouter';
 require('dotenv').config();
 
 
@@ -75,7 +76,12 @@ cocktailApiRouter.get('/random_drink_by_ingredient', async (req: Request, res: R
         }
     }).then((response: AxiosResponse) => {
         const randInt = Math.floor(Math.random() * response.data.drinks.length);
-        res.send(response.data.drinks[randInt]);
+        const drink = response.data.drinks[randInt];
+        drinkByIdPromise(drink.idDrink).then(
+            (r: any) => {
+                res.send(r.data.drinks[0]);
+            }
+        )
     }).catch((err: any) => {
         console.log("ERROR " + err);
         res.status(500).send();
@@ -119,7 +125,7 @@ cocktailApiRouter.get('/my_menus', verifyToken, async (req: AuthenticatedRequest
          FROM menus m
          WHERE m.user_id = $1
          ORDER BY m.date_created DESC`,
-        [ req.userId ]
+        [req.userId]
     ).then(async (result: { rows: any; }) => {
         return res.json(result.rows);
     }).catch(() => {
@@ -132,7 +138,7 @@ cocktailApiRouter.get('/list_custom_recipes', verifyToken, async (req: Authentic
     psqlPool.query(
         `SELECT cr.id, cr.image_id, cr."strDrink", cr."strAlcoholic", cr."strCategory", cr."strGlass", cr."strInstructions", cr."strIngredient1", cr."strIngredient2", cr."strIngredient3", cr."strIngredient4", cr."strIngredient5", cr."strIngredient6", cr."strIngredient7", cr."strIngredient8", cr."strIngredient9", cr."strIngredient10", cr."strIngredient11", cr."strIngredient12", cr."strIngredient13", cr."strIngredient14", cr."strIngredient15", cr."strMeasure1", cr."strMeasure2", cr."strMeasure3", cr."strMeasure4", cr."strMeasure5", cr."strMeasure6", cr."strMeasure7", cr."strMeasure8", cr."strMeasure9", cr."strMeasure10", cr."strMeasure11", cr."strMeasure12", cr."strMeasure13", cr."strMeasure14", cr."strMeasure15", cr."dateModified"
          FROM custom_recipes cr WHERE cr.user_id = $1`,
-        [ req.userId ]
+        [req.userId]
     ).then((result: { rows: any; }) => {
         res.json(result.rows);
     }).catch(() => {
