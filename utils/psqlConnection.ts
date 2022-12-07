@@ -3,9 +3,10 @@ require("dotenv").config();
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const connectionString = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`;
+const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({
     connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
+    // Comment out ssl when testing in development
     ssl: {
         rejectUnauthorized: false,
     },
