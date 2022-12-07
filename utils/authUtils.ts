@@ -18,7 +18,7 @@ export const verifyToken = (req: AuthenticatedRequest, res: Response, next: Next
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-      return res.status(403).send('A token is required for authentication of the form \"Bearer ******\"');
+      return res.status(403).send('User Must Be Logged In');
   }
   try {
       const decodedToken = jwt.verify(token, process.env.SECRET_TOKEN || "");
@@ -26,7 +26,7 @@ export const verifyToken = (req: AuthenticatedRequest, res: Response, next: Next
         req.userId = decodedToken.userId; // This allows our endpoints to determine the username/userid
       }
   } catch (err) {
-      return res.status(401).send('Invalid Token');
+      return res.status(401).send('User Must Be Logged In');
   }
   next();
 };
@@ -51,7 +51,7 @@ export const generateAccessToken = (userId: number) => {
     { userId: userId },
     process.env.SECRET_TOKEN || "",
     {
-      expiresIn: '1h',
+      expiresIn: '2h',
     }
   );
 }
