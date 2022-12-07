@@ -53,7 +53,7 @@ const drinkByAlcoholicPromise = (alcoholic: string) => {
     });
 }
 
-const drinkByIdPromise = (id: string) => {
+export const drinkByIdPromise = (id: string) => {
     return axios.get(`${api_url}lookup.php?i=${id}`, {
         headers: {
             "Authentication": `Bearer ${api_key}`,
