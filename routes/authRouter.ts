@@ -12,7 +12,7 @@ const saltRounds = 10;
 function validUsername(username: any) {
   if (username === undefined
     || typeof username != "string" ||
-    !(username.length <= 30 && username.length > 0)) {
+    !(username.length <= 30 && username.length > 6)) {
     return false;
   }
   return true;
