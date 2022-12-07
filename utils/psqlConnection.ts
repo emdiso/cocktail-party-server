@@ -6,9 +6,8 @@ const isProduction = process.env.NODE_ENV === "production";
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({
     connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-    // Comment out ssl when testing in development
     ssl: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: !isProduction,
     },
 });
 
