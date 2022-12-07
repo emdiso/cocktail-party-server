@@ -13,8 +13,8 @@ const pool = new Pool(isProduction ? {
 
 // const psqlEnv = require("../../env.json"); // Convert to typsecript import statment
 // let psqlPool = new Pool(psqlEnv);
-// psqlPool.connect().then(() => {
-//   console.log("Connected to database");
-// });
+pool.connect().then(() => {
+  console.log("Connected to database");
+});
 
 export default pool;
