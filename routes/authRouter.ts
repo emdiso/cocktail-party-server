@@ -33,7 +33,7 @@ function validPassword(password: any) {
   if (password === undefined
     || typeof password != "string" ||
     !(password.length <= 30 && password.length >= 8) ||
-    !/[!#$%&*?]/g.test(password) ||
+    !/[!#+-=_$%&*?]/g.test(password) ||
     !/\d/.test(password)) {
     return false;
   }
